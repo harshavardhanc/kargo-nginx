@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-test
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://charts.bitnami.com/bitnami
+    chart: nginx
+    # Kargo will manage this version. Start with a valid one.
+    targetRevision: "18.1.0" 
+    helm:
+      # Environment specific overrides go here
+      values: |
+        service:
+          type: ClusterIP
+        replicaCount: 1
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: test-ns
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
