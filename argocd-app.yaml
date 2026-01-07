@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: nginx-dev
+  name: nginx-argocd
   namespace: argocd
 spec:
   project: default
@@ -16,7 +16,7 @@ spec:
         - https://raw.githubusercontent.com/harshavardhanc/kargo-nginx/main/env/dev/values.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: nginx-dev
+    namespace: nginx-argocd
   syncPolicy:
     automated:
       prune: true
