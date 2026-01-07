@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-dev
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://charts.bitnami.com/bitnami
+    chart: nginx
+    targetRevision: 15.x.x
+    helm:
+      valueFiles:
+        # We point to the raw file in YOUR git repo
+        # Note: ArgoCD needs to access your repo to read this file
+        - https://raw.githubusercontent.com/harshavardhanc/kargo-nginx/main/env/dev/values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: nginx-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

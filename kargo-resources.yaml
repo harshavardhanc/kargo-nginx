@@ -1,0 +1,56 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: nginx-kargo
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: nginx-warehouse
+  namespace: nginx-kargo
+spec:
+  subscriptions:
+    - image:
+        repoURL: docker.io/bitnami/nginx
+        semverConstraint: ^1.25.0
+        discoveryLimit: 5
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: dev
+  namespace: nginx-kargo
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: nginx-warehouse
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/harshavardhanc/kargo-nginx.git
+        - name: imageRepo
+          value: docker.io/bitnamilegacy/nginx
+      steps:
+        - uses: git-clone
+          config:
+            repoURL: ${{ vars.gitRepo }}
+            checkout:
+              - branch: main
+                path: ./src
+        - uses: yaml-update
+          config:
+            path: ./src/env/dev/values.yaml
+            updates:
+              - key: image.tag
+                value: ${{ imageFrom(vars.imageRepo).Tag }}
+        - uses: git-commit
+          config:
+            path: ./src
+            message: "chore(dev): update nginx tag to ${{ imageFrom(vars.imageRepo).Tag }}"
+        - uses: git-push
+          config:
+            path: ./src
