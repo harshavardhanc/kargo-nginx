@@ -2,7 +2,7 @@
 image:
   registry: docker.io
   repository: bitnami/nginx
-  tag: 1.25.0
+  tag: latest
   pullPolicy: IfNotPresent
 
 service:
