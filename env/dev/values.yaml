@@ -1,7 +1,7 @@
 # env/dev/values.yaml
 image:
   registry: docker.io
-  repository: bitnamilegacy/nginx
+  repository: bitnami/nginx
   tag: 1.25.0
   pullPolicy: IfNotPresent
 
