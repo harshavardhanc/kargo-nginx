@@ -1,7 +1,8 @@
 # env/dev/values.yaml
 image:
-  repository: nginx
-  tag: latest
+  registry: public.ecr.aws
+  repository: bitnami/nginx
+  tag: 1.29.4
   pullPolicy: Always
 
 service:
