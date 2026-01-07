@@ -1,10 +1,4 @@
-# env/dev/values.yaml
 image:
-  registry: docker.io
-  repository: bitnami/nginx
-  tag: latest
-  pullPolicy: IfNotPresent
-
-service:
-  type: ClusterIP
-  port: 80
+  repository: public.ecr.aws/bitnami/nginx
+  tag: 1.25.0
+replicaCount: 1
