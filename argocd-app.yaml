@@ -5,15 +5,17 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  source:
-    repoURL: https://charts.bitnami.com/bitnami
-    chart: nginx
-    targetRevision: 22.x.x
-    helm:
-      valueFiles:
-#        # We point to the raw file in YOUR git repo
-#        # Note: ArgoCD needs to access your repo to read this file
-        - https://raw.githubusercontent.com/harshavardhanc/kargo-nginx/main/env/dev/values.yaml
+  sources:
+    - repoURL: https://charts.bitnami.com/bitnami
+      chart: nginx
+      targetRevision: 22.x.x
+      helm:
+        valueFiles:
+          - https://raw.githubusercontent.com/harshavardhanc/kargo-nginx/main/env/dev/values.yaml
+    - repoURL: https://github.com/harshavardhanc/kargo-nginx.git
+      targetRevision: main
+      ref: my-values-repo
+      path: env/dev
   destination:
     server: https://kubernetes.default.svc
     namespace: nginx-test
