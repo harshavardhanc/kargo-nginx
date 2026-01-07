@@ -11,7 +11,7 @@ metadata:
 spec:
   subscriptions:
     - image:
-        repoURL: public.ecr.aws/bitnami/nginx:1.29.4
+        repoURL: public.ecr.aws/bitnami/nginx
         semverConstraint: ^1.29.*
         discoveryLimit: 5
 ---
@@ -33,7 +33,7 @@ spec:
         - name: gitRepo
           value: https://github.com/harshavardhanc/kargo-nginx.git
         - name: imageRepo
-          value: public.ecr.aws/bitnami/nginx:1.29.4
+          value: public.ecr.aws/bitnami/nginx
       steps:
         - uses: git-clone
           config:
