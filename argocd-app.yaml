@@ -5,17 +5,26 @@ metadata:
   namespace: argocd
 spec:
   project: default
+  # -----------------------------------------------------------------
+  # WE USE 'sources' (PLURAL) TO FIX THE CACHING ISSUE
+  # -----------------------------------------------------------------
   sources:
+    # 1. The Bitnami Helm Chart
     - repoURL: https://charts.bitnami.com/bitnami
       chart: nginx
       targetRevision: 22.x.x
       helm:
         valueFiles:
-          - https://raw.githubusercontent.com/harshavardhanc/kargo-nginx/main/env/dev/values.yaml
+          # This references the repo defined in Source #2 below
+          # It effectively says: "Use the file at ./env/dev/values.yaml"
+          - $my-git-repo/env/dev/values.yaml
+
+    # 2. Your Git Repository (The Source of Truth)
     - repoURL: https://github.com/harshavardhanc/kargo-nginx.git
       targetRevision: main
-      ref: my-values-repo
-      path: env/dev
+      ref: my-git-repo  # <--- We name this repo so Source #1 can use it
+  # -----------------------------------------------------------------
+
   destination:
     server: https://kubernetes.default.svc
     namespace: nginx-test
