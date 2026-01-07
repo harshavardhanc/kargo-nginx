@@ -1,4 +1,8 @@
 # env/dev/values.yaml
+global:
+  security:
+    allowInsecureImages: true
+
 image:
   registry: public.ecr.aws
   repository: bitnami/nginx
