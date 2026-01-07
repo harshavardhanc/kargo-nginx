@@ -6,7 +6,7 @@ global:
 image:
   registry: public.ecr.aws
   repository: bitnami/nginx
-  tag: 1.29.2
+  tag: 1.29.0
   pullPolicy: Always
 
 service:
